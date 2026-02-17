@@ -9,8 +9,7 @@ test('User can login with valid credentials', async ({ page }) => {
     process.env.TEST_EMAIL!,
     process.env.TEST_PASSWORD!
   );
-
-  await expect(page).toHaveURL(/account/);
+  await login.expectLoggedIn();
 });
 
 test('User sees error with invalid credentials', async ({ page }) => {

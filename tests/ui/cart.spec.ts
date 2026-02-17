@@ -36,7 +36,6 @@ test.describe('Cart', () => {
     const totalBefore = parsePrice(await cart.getTotal());
     await cart.updateQuantity('2');
     await cart.waitForTotalToChange(totalBefore);
-
     const totalAfter = parsePrice(await cart.getTotal());
 
     expect(totalAfter).toBeGreaterThanOrEqual(totalBefore);
@@ -51,10 +50,8 @@ test.describe('Cart', () => {
     await shop.open();
     await shop.openFirstProduct();
     await product.addToCart();
-
     await header.openCart();
     await cart.removeItem();
-
     await cart.isCartEmpty();
   });
 

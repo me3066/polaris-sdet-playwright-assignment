@@ -22,12 +22,12 @@ export class ShopPage extends BasePage {
     await this.goto('/');
   }
 
-async openFirstProduct(): Promise<void> {
-  // ensure product list is ready
-  await this.products.first().waitFor({ state: 'visible' });
-  await this.products.first().click();
-  await this.page.waitForLoadState('domcontentloaded');
-}
+  async openFirstProduct(): Promise<void> {
+    // ensure product list is ready
+    await this.products.first().waitFor({ state: 'visible' });
+    await this.products.first().click();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
 
   async search(term: string): Promise<void> {
     await this.searchInput.fill(term);
@@ -42,14 +42,21 @@ async openFirstProduct(): Promise<void> {
     await this.ecoFriendlyFilter.uncheck();
   }
 
+  async getVisiblePrices(): Promise<string[]> {
+  return await this.page.getByTestId('product-price').allTextContents();
+}
+
   async sortBy(value: string): Promise<void> {
     await this.sortDropdown.selectOption(value);
+    // wait for DOM update after sorting
+    await this.page.waitForLoadState('networkidle');
+    await this.products.first().waitFor({ state: 'visible' });
   }
 
   async getVisibleProductNames(): Promise<string[]> {
     return await this.products.allTextContents();
   }
-
+  
   async waitForProducts(): Promise<void> {
     await this.products.first().waitFor({ state: 'visible' });
   }

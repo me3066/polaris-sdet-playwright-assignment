@@ -27,6 +27,10 @@ export class LoginPage extends BasePage {
     await this.click(this.submit);
   }
 
+  async expectLoggedIn() {
+    await expect(this.page.getByTestId('nav-menu')).toBeVisible();
+  }
+
   async expectInvalidCredentialsError() {
     await this.expectVisible(this.loginError);
   }
