@@ -7,14 +7,11 @@ test('API returns products sorted by price asc', async ({ request }) => {
     'https://api.practicesoftwaretesting.com/products?sort=price,asc'
   );
 
-  // Basic response validation
   expect(response.ok()).toBeTruthy();
 
-  // ---- DEBUG (very useful while developing) ----
   const contentType = response.headers()['content-type'];
   console.log('Content-Type:', contentType);
 
-  // If API ever returns HTML, print it to debug quickly
   if (!contentType?.includes('application/json')) {
     const text = await response.text();
     console.log('Response was not JSON:\n', text);
